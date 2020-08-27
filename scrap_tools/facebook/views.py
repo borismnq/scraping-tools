@@ -43,12 +43,12 @@ def scrap_attached_posts(request):
     status = "OK"
     posts = None
     post_to_save = []
-    if webdriver:
-        logged = login_fb()
+    if WEBDRIVER:
+        logged = login_fb(WEBDRIVER)
         if logged:
-            scrolled = scroll_custom(2500)
+            scrolled = scroll_custom(2500,WEBDRIVER)
             if scrolled:
-                posts = find_posts()
+                posts = find_posts(WEBDRIVER)
     
     attached_posts = None
     if posts:
@@ -60,7 +60,7 @@ def scrap_attached_posts(request):
         for att in attached_posts:
             attached_post = {}    
             
-            soup = hover_and_parse(att)
+            soup = hover_and_parse(att,WEBDRIVER)
             
             if soup:
                 
@@ -79,9 +79,9 @@ def scrap_attached_posts(request):
                 
                 status = "PARSING PROBLEMS"
 
-        WEBDRIVER.quit()
+        # WEBDRIVER.quit()
     else:
-        WEBDRIVER.quit()
+        # WEBDRIVER.quit()
         status = "NO ATTACHED POSTS"
 
     for post in post_to_save:
@@ -107,12 +107,20 @@ def create_webdriver():
         # options.add_argument("window-size=1400,900")
         options.add_argument('--incognito')    
         options.add_argument('--ignore-certificate-errors')        
-        WEBDRIVER = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+        WEBDRIVER = webdriver.Remote(command_executor='http://hub:4444/wd/hub',
+                                        desired_capabilities={
+                                                'browserName': 'chrome',
+                                                'version': '',
+                                                "chrome.switches": ["disable-web-security"],
+                                                'platform': 'ANY'
+                                        })
+        print(WEBDRIVER)
         return WEBDRIVER
 
-def login_fb():
+def login_fb(WEBDRIVER):
     """Login on fb, and waiting for page load"""
     try:
+        print(WEBDRIVER)
         WEBDRIVER.get(FACEBOOK_URL)
 
         username = WEBDRIVER.find_element(By.ID,"email")
@@ -129,7 +137,7 @@ def login_fb():
     except NoSuchElementException as e:
         return False
 
-def scroll_custom(pxs):
+def scroll_custom(pxs,WEBDRIVER):
     """Scrolls custom pixeles and wait 4 secs for loading"""
 
     try:
@@ -139,7 +147,7 @@ def scroll_custom(pxs):
     except Exception as e:
         return False
 
-def find_posts():
+def find_posts(WEBDRIVER):
     """Returns all posts from facebook feed"""
 
     try:            
@@ -160,7 +168,7 @@ def find_attached_posts(posts):
 
     return attached_posts
 
-def hover_and_parse(attached_post):
+def hover_and_parse(attached_post,WEBDRIVER):
     """Returns html after hover each time element of attached post in order to make some other elements loads"""
     try: 
         div_describedby = attached_post.find_element_by_xpath(".//div[@aria-describedby]")

@@ -10,8 +10,7 @@ services:
             - ./scrap_tools:/scrap_tools
         command: >
             sh -c "python manage.py migrate &&
-                   python manage.py runserver 0.0.0.0:8000
-                   docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome:4.0.0-alpha-7-prerelease-20200826"
+                   python manage.py runserver 0.0.0.0:8000"
         environment:
             - DB_HOST=db
             - DB_NAME=app
@@ -23,6 +22,8 @@ services:
             - FB_PASS=<YOUR FACEBOOK PASS>
         depends_on:
             - db
+            - hub
+            - chrome
     db:
         image: postgres:10-alpine
         environment:
@@ -30,5 +31,22 @@ services:
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=supersecretpassword
 
+    chrome:
+        image: selenium/node-chrome:4.0.0-alpha-7-prerelease-20200826
+        volumes:
+            - /dev/shm:/dev/shm
+        depends_on:
+            - hub
+        environment:
+            - SE_EVENT_BUS_HOST=hub
+            - SE_EVENT_BUS_PUBLISH_PORT=4442
+            - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
     
-          
+    hub:
+        image: selenium/hub:4.0.0-alpha-7-prerelease-20200826
+        container_name: hub
+        ports:
+        - "4442:4442"
+        - "4443:4443"
+        - "4444:4444"
+            
