@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+# from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
@@ -23,7 +23,19 @@ from facebook import views as facebook_views
 
 
 urlpatterns = [
-    path('api/instagram/', instagram_views.scrap_profile,name="scrap_profile"),
-    path('api/elpais/', elpais_views.scrap_news,name="scrap_news"),
-    path('api/facebook/', facebook_views.scrap_attached_posts,name="scrap_attached_posts"),
+    path(
+        'api/instagram/',
+        instagram_views.scrap_profile,
+        name="scrap_profile"
+    ),
+    path(
+        'api/elpais/',
+        elpais_views.scrap_news,
+        name="scrap_news"
+    ),
+    path(
+        'api/facebook/',
+        facebook_views.scrap_attached_posts,
+        name="scrap_attached_posts"
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
