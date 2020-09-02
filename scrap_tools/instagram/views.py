@@ -90,9 +90,9 @@ def _get_post_data(post):
     post_type = post['__typename'].lower()
     post_data['id'] = post['id']
     post_data['date'] = post['taken_at_timestamp']
-    post_data['texto'] = post['edge_media_to_caption']
-    ['edges'][0]
-    ['node']['text']
+    post_data['texto'] = post[
+        'edge_media_to_caption'
+        ]['edges'][0]['node']['text']
     post_data['media'] = _download_file(
                             post['display_url'],
                             post_data['id']+'.jpg'
