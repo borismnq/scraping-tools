@@ -26,7 +26,6 @@ WEBDRIVER = None
 
 @csrf_exempt
 def scrap_attached_posts(request):
-
     """Scrap facebook attached posts data"""
 
     id_inserted_list = list()

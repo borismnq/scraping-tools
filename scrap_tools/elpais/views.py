@@ -22,9 +22,7 @@ HEADERS = {
 
 @csrf_exempt
 def scrap_news(request):
-
     """Scrap video articles from elpais españa version """
-
     news_url = _get_video_news()
 
     video_articles = []

@@ -29,6 +29,7 @@ class FacebookTests(TestCase):
 class FacebookSeleniumTests(TestCase):
 
     def setUp(self):
+        """ Load env variables and create new chrome driver"""
         self.facebook_url = os.environ.get('FACEBOOK_URL')
         self.fb_email = os.environ.get('FB_EMAIL')
         self.fb_pass = os.environ.get('FB_PASS')
@@ -57,4 +58,5 @@ class FacebookSeleniumTests(TestCase):
         self.assertIsNotNone(password)
 
     def tearDown(self):
+        """Closes webdriver"""
         self.driver.close()
