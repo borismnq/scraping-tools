@@ -21,11 +21,6 @@ import os
 FACEBOOK_URL = os.environ.get('FACEBOOK_URL')
 FB_EMAIL = os.environ.get('FB_EMAIL')
 FB_PASS = os.environ.get('FB_PASS')
-HEADERS = {
-    "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 " +
-    "(KHTML, like Gecko) Ubuntu Chromium/71.0.3578.80 Chrome/71.0.3578.80 " +
-    "Safari/537.36"
-}
 WEBDRIVER = None
 
 
