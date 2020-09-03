@@ -23,7 +23,7 @@ class InstagramTests(TestCase):
         self.assertEqual(str(ig_profile), ig_profile.name)
 
     def test_user_profile_data(self):
-        """Testing user profile data current json structure"""
+        """Testing that user profile data page exists"""
         url = "https://www.instagram.com/claroperu/?__a=1"
 
         headers = {
