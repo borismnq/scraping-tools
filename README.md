@@ -9,18 +9,18 @@
 
 ---
 
-# Endpoints requests example
+# Endpoints requests examples
 
-## Instagram example
+## Instagram
 
 `data = {'users':['claroperu']}`
 `requests.post(url='http://127.0.0.1:8000/api/instagram/',data=json.dumps(data))`
 
-## Elpais example
+## Elpais
 
 `requests.post(url='http://127.0.0.1:8000/api/elpais/')`
 
-## Facebook example
+## Facebook
 
 `requests.post(url='http://127.0.0.1:8000/api/facebook/')`
 
@@ -28,4 +28,5 @@
 
 # Run Tests
 
-To run default unittests(plus flake8 lint) run `docker-compose run scrap_tools sh -c "python manage.py test && flake8"`
+To run default unittests(plus flake8 lint) run 
+`$ docker-compose run scrap_tools sh -c "python manage.py test && flake8"`
