@@ -26,6 +26,6 @@
 
 ---
 
-# Run UnitTests
+# Run Tests
 
 To run default unittests(plus flake8 lint) run `docker-compose run scrap_tools sh -c "python manage.py test && flake8"`
