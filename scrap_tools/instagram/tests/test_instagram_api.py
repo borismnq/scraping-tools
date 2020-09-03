@@ -33,5 +33,6 @@ class InstagramTests(TestCase):
         }
 
         response = requests.get(url, headers=headers)
+        self.assertIsNotNone(response)
         response = response.json()
         self.assertIsNotNone(response['graphql']['user'])
