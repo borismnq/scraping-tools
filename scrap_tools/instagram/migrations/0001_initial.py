@@ -7,20 +7,27 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Instagram',
+            name="Instagram",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('ig_id', models.CharField(max_length=255)),
-                ('name', models.CharField(max_length=255)),
-                ('following', models.IntegerField()),
-                ('followers', models.IntegerField()),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('modified', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("ig_id", models.CharField(max_length=255)),
+                ("name", models.CharField(max_length=255)),
+                ("following", models.IntegerField()),
+                ("followers", models.IntegerField()),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("modified", models.DateTimeField(auto_now=True)),
             ],
         ),
     ]

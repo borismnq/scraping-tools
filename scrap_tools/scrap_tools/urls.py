@@ -23,19 +23,11 @@ from facebook import views as facebook_views
 
 
 urlpatterns = [
+    path("api/instagram/", instagram_views.scrap_profile, name="scrap_profile"),
+    path("api/elpais/", elpais_views.scrap_news, name="scrap_news"),
     path(
-        'api/instagram/',
-        instagram_views.scrap_profile,
-        name="scrap_profile"
-    ),
-    path(
-        'api/elpais/',
-        elpais_views.scrap_news,
-        name="scrap_news"
-    ),
-    path(
-        'api/facebook/',
+        "api/facebook/",
         facebook_views.scrap_attached_posts,
-        name="scrap_attached_posts"
+        name="scrap_attached_posts",
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

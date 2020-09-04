@@ -20,32 +20,32 @@ class FacebookTests(TestCase):
             shared="Shared post username",
             shared_id="101010101010",
             original="Original post username",
-            original_id="202020202020"
+            original_id="202020202020",
         )
 
         self.assertEqual(str(fb_attached_post), fb_attached_post.original_id)
 
 
 class FacebookSeleniumTests(TestCase):
-
     def setUp(self):
         """ Load env variables and create new chrome driver"""
-        self.facebook_url = os.environ.get('FACEBOOK_URL')
-        self.fb_email = os.environ.get('FB_EMAIL')
-        self.fb_pass = os.environ.get('FB_PASS')
+        self.facebook_url = os.environ.get("FACEBOOK_URL")
+        self.fb_email = os.environ.get("FB_EMAIL")
+        self.fb_pass = os.environ.get("FB_PASS")
 
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-        options.add_argument('--incognito')
-        options.add_argument('--ignore-certificate-errors')
+        options.add_argument("--headless")
+        options.add_argument("--incognito")
+        options.add_argument("--ignore-certificate-errors")
         self.driver = webdriver.Remote(
-            command_executor='http://hub:4444/wd/hub',
+            command_executor="http://hub:4444/wd/hub",
             desired_capabilities={
-                    'browserName': 'chrome',
-                    'version': '',
-                    "chrome.switches": ["disable-web-security"],
-                    'platform': 'ANY'
-            })
+                "browserName": "chrome",
+                "version": "",
+                "chrome.switches": ["disable-web-security"],
+                "platform": "ANY",
+            },
+        )
 
     def test_fb_login_exists(self):
         """Test facebook login page"""

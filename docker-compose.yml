@@ -19,8 +19,8 @@ services:
             - SECRET_KEY=jezdvp7mg)j!5%r3$u6=*wzri3%p&1x%%%0&j^jz-zyrbwilrl
             - ELPAIS_URL=https://elpais.com
             - FACEBOOK_URL=https://facebook.com
-            - FB_EMAIL=<YOUR FACEBOOK EMAIL>
-            - FB_PASS=<YOUR FACEBOOK PASS>
+            - FB_EMAIL=boris_wtf@hotmail.com
+            - FB_PASS=Fryevia543
         depends_on:
             - db
             - hub
