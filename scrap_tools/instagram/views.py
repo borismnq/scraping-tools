@@ -1,6 +1,6 @@
 """Instagram views"""
 # Django
-from django.http import HttpResponse
+from django.http import JsonResponse
 from instagram.models import Instagram
 from django.views.decorators.csrf import csrf_exempt
 from django.db.utils import IntegrityError
@@ -49,15 +49,14 @@ def scrap_profile(request):
         data["post_data"] = posts_data
 
         try:
-            new_profile = Instagram.objects.create(**data)
-            id_inserted_list.append(new_profile.ig_id)
+            id_inserted_list.append(save_model(data))
 
         except IntegrityError as e:
             status = e
 
     response = {"status": str(status), "instagram_id_inserted": id_inserted_list}
 
-    return HttpResponse(json.dumps(response), content_type="application/json")
+    return JsonResponse(response)
 
 
 def _download_file(url, name=None):
@@ -98,3 +97,8 @@ def _get_post_data(post):
     post_data["comments"] = post["edge_media_to_comment"]["count"]
 
     return post_data
+
+
+def save_model(data):
+    """Saves user profile data on db"""
+    return Instagram.objects.create(**data).ig_id

@@ -1,6 +1,6 @@
 """Elpais views"""
 # Django
-from django.http import HttpResponse
+from django.http import JsonResponse
 from elpais.models import Elpais
 from django.views.decorators.csrf import csrf_exempt
 from django.db.utils import IntegrityError
@@ -45,7 +45,7 @@ def scrap_news(request):
 
     response = {"status": str(status), "article_id_inserted": id_inserted_list}
 
-    return HttpResponse(json.dumps(response), content_type="application/json")
+    return JsonResponse(response)
 
 
 def _download_file(video_objects):
@@ -83,14 +83,6 @@ def _get_article_data(url):
             article_data["title"] = article_object.get("headline")
             article_data["text"] = article_object.get("articleBody")
             article_data["video"] = _download_file(article_object["video"])
-            break
-        elif '"@type":["ReportageNewsArticle"]' in script.string:
-            article_object = json.loads(script.string)
-            article_data["url"] = article_object.get("mainEntityOfPage")
-            article_data["publish_date"] = article_object.get("datePublished")
-            article_data["title"] = article_object.get("headline")
-            article_data["text"] = article_object.get("articleBody")
-            article_data["video"] = "./"
             break
 
     return article_data

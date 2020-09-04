@@ -1,9 +1,8 @@
 """Facebook views"""
 # Django
-from django.http import HttpResponse
+from django.http import JsonResponse
 from facebook.models import Facebook
 from django.views.decorators.csrf import csrf_exempt
-from django.db.utils import IntegrityError
 
 # BeautifulSoup
 from bs4 import BeautifulSoup
@@ -15,16 +14,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
 # Utilities
-import json
 import time
 import re
 import os
-
-
-FACEBOOK_URL = os.environ.get("FACEBOOK_URL")
-FB_EMAIL = os.environ.get("FB_EMAIL")
-FB_PASS = os.environ.get("FB_PASS")
-WEBDRIVER = None
 
 
 @csrf_exempt
@@ -35,7 +27,7 @@ def scrap_attached_posts(request):
     WEBDRIVER = create_webdriver()
     status = "OK"
     posts = None
-    post_to_save = []
+    posts_to_save = []
     if WEBDRIVER:
         logged = login_fb(WEBDRIVER)
         if logged:
@@ -67,28 +59,19 @@ def scrap_attached_posts(request):
                     attached_post["original"] = original_info["who_original_post"]
                     attached_post["original_id"] = original_info["post_id"]
 
-                post_to_save.append(attached_post)
+                posts_to_save.append(attached_post)
             else:
 
                 status = "PARSING PROBLEMS"
 
-        # WEBDRIVER.quit()
     else:
-        # WEBDRIVER.quit()
         status = "NO ATTACHED POSTS"
 
-    for post in post_to_save:
-
-        try:
-            new_post = Facebook.objects.create(**post)
-            id_inserted_list.append(new_post.id)
-
-        except IntegrityError as e:
-            status = e
+    id_inserted_list = save_model(posts_to_save)
 
     response = {"status": str(status), "facebook_id_inserted": id_inserted_list}
 
-    return HttpResponse(json.dumps(response), content_type="application/json")
+    return JsonResponse(response)
 
 
 def create_webdriver():
@@ -113,13 +96,13 @@ def create_webdriver():
 def login_fb(WEBDRIVER):
     """Login on fb, and waiting for page load"""
     try:
-        WEBDRIVER.get(FACEBOOK_URL)
+        WEBDRIVER.get(os.environ.get("FACEBOOK_URL"))
 
         username = WEBDRIVER.find_element(By.ID, "email")
         password = WEBDRIVER.find_element(By.ID, "pass")
 
-        username.send_keys(FB_EMAIL)
-        password.send_keys(FB_PASS)
+        username.send_keys(os.environ.get("FB_EMAIL"))
+        password.send_keys(os.environ.get("FB_PASS"))
 
         WEBDRIVER.find_element(By.ID, "u_0_b").click()
 
@@ -267,3 +250,16 @@ def find_post_id(html):
         return shared_original_ids[0]
     except TypeError:
         return None
+
+
+def save_model(posts_to_save):
+    """Saves new attached post on db"""
+    return [Facebook.objects.create(**post).id for post in posts_to_save]
+    # for post in posts_to_save:
+
+    #     try:
+    #         new_post = Facebook.objects.create(**post)
+    #         id_inserted_list.append(new_post.id)
+
+    #     except IntegrityError as e:
+    #         status = e
