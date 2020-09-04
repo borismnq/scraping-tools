@@ -32,4 +32,4 @@
 `$ docker-compose run scrap_tools sh -c "python manage.py test"`
 
 - To apply black codeformatter:
-`$ docker-compose run scrap_tools sh -c "python black ./"`
+`$ docker-compose run scrap_tools sh -c "black ./"`
