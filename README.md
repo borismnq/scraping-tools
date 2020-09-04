@@ -26,7 +26,10 @@
 
 ---
 
-# Run Tests
+# Helpers
 
-To run default unittests(plus flake8 lint) run
-`$ docker-compose run scrap_tools sh -c "python manage.py test && flake8"`
+- To run default tests:
+`$ docker-compose run scrap_tools sh -c "python manage.py test"`
+
+- To apply black codeformatter:
+`$ docker-compose run scrap_tools sh -c "python black ./"`
