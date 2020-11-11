@@ -47,16 +47,6 @@ class FacebookSeleniumTests(TestCase):
             },
         )
 
-    def test_fb_login_exists(self):
-        """Test facebook login page"""
-        driver = self.driver
-        url = self.facebook_url
-        driver.get(url)
-        username = driver.find_element(By.ID, "email")
-        password = driver.find_element(By.ID, "pass")
-        self.assertIsNotNone(username)
-        self.assertIsNotNone(password)
-
     def tearDown(self):
         """Closes webdriver"""
         self.driver.close()
